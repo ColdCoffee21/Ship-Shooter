@@ -1,0 +1,64 @@
+import java.awt.Graphics;
+import java.awt.Color;
+import java.io.*;
+public class HUD
+{
+    public static float HEALTH =100; // only health variable in the whole game. Which is why
+    // im makin it static so that we dont have to initialize the HUD
+    private float greenValue = 255;
+    private int score =0;
+    private int level =1; 
+    private Game g;
+    private BufferedReader br = new BufferedReader ( new InputStreamReader(System.in));
+    public void tick() 
+    {
+        HEALTH = Game.clamp(HEALTH,0,100);
+        greenValue = Game.clamp(greenValue,0,255);
+        greenValue = HEALTH*2;
+        score++;
+        if(HEALTH ==0)
+        { 
+            try
+            {
+                FileWriter fout = new FileWriter("HighScores.txt", true);
+                BufferedWriter bout = new BufferedWriter(fout);
+                PrintWriter pout = new PrintWriter (bout);
+                System.out.println("YOU ARE DEAD! SCORE: " + score);
+                pout.println("Player name: " + g.name + " Score: " + score);
+                pout.close();               
+                System.exit(1);
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error occured");
+            }
+        }
+    }
+    public void render(Graphics g)
+    {
+        g.setColor(Color.gray);
+        g.fillRect(15,15,200,32);
+        g.setColor(new Color(75,(int)greenValue,0));
+        g.fillRect(15,15,(int)HEALTH*2,32);
+        g.setColor(Color.white);
+        g.drawRect(15,15,200,32);
+        g.drawString("Score: " +score , 15 ,64);
+        g.drawString("Level: " +level , 15 ,80);
+    }
+    public void score(int score)
+    {
+        this.score = score;
+    }
+    public int getScore()
+    {
+        return score;
+    }
+    public int getLevel()
+    {
+        return level;
+    }
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+}
