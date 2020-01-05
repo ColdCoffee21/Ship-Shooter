@@ -9,4 +9,4 @@ There are different enemies:
 * GREEN - follows you around!
 
 # How to run it
-Execute "work" windows batch file to start the game.
+Clone project. Then execute "work" windows batch file to start the game.
